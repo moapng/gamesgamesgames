@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+	font-family: 'Norwester';
+	font-style: normal;
+	font-weight: 400;
+	src:
+		url('/norwester.eot'),
+		local('Norwester'),
+		url('/norwester.eot') format('embedded-opentype');
+}
+@font-face {
+	font-family: 'Vonique92';
+	font-style: normal;
+	font-weight: 400;
+	src:
+		url('/vonique92.eot'),
+		local('Vonique92'),
+		url('/vonique92.eot') format('embedded-opentype');
+}
+
+@font-face {
+	font-family: 'pixelifysans';
+	src:
+		url('/pixelifysans.ttf'),
+		local('pixelifysans'),
+		url('/pixelifysans.ttf') format('truetype-font');
+}
+
+h1 {
+	font-family: Norwester;
+	font-size: 2rem;
+	line-height: normal;
+
+	text-align: center;
+}
