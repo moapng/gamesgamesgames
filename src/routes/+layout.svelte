@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import '../app.css';
-	$: console.log($page.url.pathname.slice(1));
+
+	$: href = $page.url.pathname.slice(1);
 </script>
 
 <!-- <nav class="flex justify-end">
@@ -41,15 +42,17 @@
 		>
 	</label>
 </nav> -->
-{#key $page.url.pathname}
-	<div
-		class="mobile:px-10 desktop:px-24 h-screen w-screen text-center"
-		data-theme={$page.url.pathname.slice(1)}
+<div
+	class="mobile:px-10 mobile:pt-6 desktop:px-24 desktop:pt-10 lgdesktop:px-32 lgdesktop:pt-16 min-h-screen h-full w-screen text-center"
+	data-theme={href}
+>
+	<h1
+		class="{href === 'blockdoku' ? 'text-blockdoku' : href === 'wordle' ? 'text-wordle' : ''} mb-10"
 	>
-		<h1><a href="/">games galore</a></h1>
-		<slot />
-	</div>
-{/key}
+		<a href="/">games galore</a>
+	</h1>
+	<slot />
+</div>
 
 <style>
 	h1 {

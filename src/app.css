@@ -4,8 +4,6 @@
 
 @font-face {
 	font-family: 'Norwester';
-	font-style: normal;
-	font-weight: 400;
 	src:
 		url('/norwester.eot'),
 		local('Norwester'),
@@ -13,8 +11,6 @@
 }
 @font-face {
 	font-family: 'Vonique92';
-	font-style: normal;
-	font-weight: 400;
 	src:
 		url('/vonique92.eot'),
 		local('Vonique92'),
@@ -33,6 +29,12 @@ h1 {
 	font-family: Norwester;
 	font-size: 2rem;
 	line-height: normal;
+}
 
-	text-align: center;
+h2 {
+	font-size: 1.75rem;
+}
+
+p{
+	font-size: 1.25rem;
 }
