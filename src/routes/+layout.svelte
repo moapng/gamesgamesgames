@@ -43,7 +43,7 @@
 	</label>
 </nav> -->
 <div
-	class="mobile:px-10 mobile:pt-6 desktop:px-24 desktop:pt-10 lgdesktop:px-32 lgdesktop:pt-16 min-h-screen h-full w-screen text-center"
+	class="mobile:px-10 mobile:pt-6 desktop:px-20 desktop:pt-10 lgdesktop:px-32 lgdesktop:pt-16 min-h-screen h-full w-screen text-center"
 	data-theme={href}
 >
 	<h1

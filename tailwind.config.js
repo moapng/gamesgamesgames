@@ -3,7 +3,7 @@ export default {
 	content: ['./src/**/*.{html,js,svelte,ts}'],
 	theme: {
 		screens: {
-			mobile: '280px',
+			mobile: '300px',
 			pad: '640px',
 			desktop: '1024px',
 			lgdesktop: '1600px'
