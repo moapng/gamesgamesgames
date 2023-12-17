@@ -3,7 +3,9 @@ import { vitePreprocess } from '@sveltejs/kit/vite';
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
 	kit: {
-		adapter: adapter()
+		adapter: adapter({
+			pages: '/gamesgamesgames'
+		})
 	},
 	preprocess: vitePreprocess()
 };
