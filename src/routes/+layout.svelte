@@ -2,6 +2,8 @@
 	import { page } from '$app/stores';
 	import '../app.css';
 	$: href = $page.url.pathname.slice(1);
+
+	const url = import.meta.env.BASE_URL;
 </script>
 
 <div
@@ -11,7 +13,7 @@
 	<h1
 		class="{href === 'blockdoku' ? 'text-blockdoku' : href === 'wordle' ? 'text-wordle' : ''} mb-10"
 	>
-		<a href='/'>games galore</a>
+		<a href={url}>games galore</a>
 	</h1>
 	<slot />
 </div>
