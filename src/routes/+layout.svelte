@@ -3,7 +3,7 @@
 	import { page } from '$app/stores';
 	import '../app.css';
 
-	$: href = $page.url.pathname.replace(/\//g, '');; //regex for removing /
+	$: href = $page.url.pathname.replace(/\/|gamesgamesgames/g, ''); //regex for removing / + gamesx3 
 $:console.log(href)
 </script>
 
