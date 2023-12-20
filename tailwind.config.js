@@ -2,14 +2,8 @@
 export default {
 	content: ['./src/**/*.{html,js,svelte,ts}'],
 	theme: {
-		screens: {
-			mobile: '300px',
-			pad: '640px',
-			desktop: '1024px',
-			lgdesktop: '1600px'
-		},
 		colors: {
-			blockdoku: '#00CEFF',
+			blockdoku: '#88d498',
 			wordle: '#c2aaca'
 		}
 	},
@@ -58,31 +52,31 @@ export default {
 				},
 
 				blockdoku: {
-					primary: '#00CEFF',
-					'primary-focus': '#00CEFF50',
-					'primary-content': '#1b1c22',
+					primary: '#88d498',
+					'primary-focus': '#4c945c',
+					'primary-content': '#02553c',
 
-					secondary: '#4DE26E',
-					'secondary-focus': '#4DE26E50',
-					'secondary-content': '#1b1c22',
+					secondary: '#1a936f',
+					'secondary-focus': '#02553c',
+					'secondary-content': '#b1e2d4',
 
-					accent: '#aea0ee',
-					'accent-focus': '#8c7bdb',
-					'accent-content': '#1b1c22',
+					accent: '#1e6f8a',
+					'accent-focus': '#114b5f',
+					'accent-content': '#aad9e9',
 
-					neutral: '#17101e',
-					'neutral-focus': '#1b1c22',
-					'neutral-content': '#ffffb3',
+					neutral: '#171618',
+					'neutral-focus': '#2e2d2f',
+					'neutral-content': '#98c9a3',
 
-					'base-100': '#362321',
-					'base-200': '#22212c',
-					'base-300': '#1b1c22',
-					'base-content': '#ffffb3',
+					'base-100': '#1f1f1f',
+					'base-200': '#171618',
+					'base-300': '#2e2d2f',
+					'base-content': '#bad8c1',
 
-					info: '#5db4df',
-					success: '#009476',
-					warning: '#f0b960',
-					error: '#c05535',
+					info: '#66c7ff',
+					success: '#87cf3a',
+					warning: '#e1d460',
+					error: '#ff6b6b',
 
 					'--rounded-box': '0',
 					'--rounded-btn': '0',
@@ -91,9 +85,9 @@ export default {
 					'--animation-btn': '.25s',
 					'--animation-input': '.2s',
 
-					'--btn-text-case': 'uppercase',
-					'--navbar-padding': '.5rem',
-					'--border-btn': '1px',
+					'--btn-text-case': 'lowercase',
+					'--navbar-padding': '1rem',
+					'--border-btn': '2px',
 
 					'h2, p': { 'font-family': 'pixelifysans' }
 				},

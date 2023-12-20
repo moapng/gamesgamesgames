@@ -1,40 +1,45 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { createEventDispatcher, onMount } from 'svelte';
 	import { writable, type Writable } from 'svelte/store';
 
 	export let draggedShape: Writable<boolean[][] | null> = writable();
-	export let shape: Writable<boolean[][]>;
+	export let shape: boolean[][];
+	export let points: Writable<number>;
 
-	const length: Writable<number> = writable();
-
-	const handleDrag = (e: Event) => {
-		draggedShape.set($shape);
+	const handleDrag = () => {
+		draggedShape.set(shape);
 	};
-
-	const handleDragEnd = () => {};
+	// TO DO: do not allow drag to end if shape cannot be placed
+	//TO DO: handle combo mulitplyer
+	const handleDragEnd = () => {
+		let shapePoints = shape.flat().filter((value) => value === true).length;
+		points.set($points + shapePoints);
+		dispatch('dragend');
+	};
 	let shapeDiv: HTMLDivElement;
 
-	onMount(() => {
-		length.set($shape[0].length);
-		shapeDiv.style.gridTemplateColumns = `repeat(${$length}, minmax(0, 1fr))`;
-	});
+	const dispatch = createEventDispatcher();
 </script>
 
 <div
-	class="grid grid-cols-{$length}"
 	role="figure"
 	draggable="true"
-	on:drag={(e) => handleDrag(e)}
+	on:drag={() => handleDrag()}
+	on:dragend={() => handleDragEnd()}
 	bind:this={shapeDiv}
 >
-	{#each $shape as row}
-		{#each row as cell}
-			<span
-				class="{cell
-					? 'bg-primary border-solid border-2 border-base-300'
-					: ''} col-span-1 mobile:w-6 mobile:h-6 pad:w-8 pad:h-8 desktop:w-8 desktop:h-8 lgdesktop:w-12 lgdesktop:h-12"
-			/>
-		{/each}
+	{#each shape as row, y}
+		<div class="flex">
+			{#each row as cell, x}
+				<!-- svelte-ignore a11y-no-static-element-interactions -->
+				<span
+					class="{cell
+						? 'bg-primary border-solid border-2 border-base-300'
+						: ''} col-span-1 w-5 h-5 2xl:w-10 2xl:h-10"
+					on:mousedown={() => dispatch('xy', { x: x, y: y })}
+				/>
+			{/each}
+		</div>
 	{/each}
 </div>
 

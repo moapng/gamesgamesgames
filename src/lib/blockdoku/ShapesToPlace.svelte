@@ -3,6 +3,8 @@
 	import Shape from './Shape.svelte';
 
 	export let draggedShape: Writable<boolean[][] | null>;
+	export let points: Writable<number>;
+
 	const shapes: boolean[][][] = [
 		[[true]],
 		[[true], [true]],
@@ -59,18 +61,41 @@
 	const returnRandom = () => {
 		return Math.floor(Math.random() * 13);
 	};
-	const shapesToPlace = [
-		writable(shapes[returnRandom()]),
-		writable(shapes[returnRandom()]),
-		writable(shapes[returnRandom()])
-	];
-	//TO DO: clear shape after it's been placed, when all are cleared, set 3 new ones
+	const shapesToPlace: Writable<{ [key: string]: boolean[][] }> = writable({
+		shape1: shapes[returnRandom()],
+		shape2: shapes[returnRandom()],
+		shape3: shapes[returnRandom()]
+	});
+
+	const populateShapesToPlace = () => {
+		const keys = Object.keys($shapesToPlace);
+		if (keys.length === 0) {
+			shapesToPlace.set({
+				shape1: shapes[returnRandom()],
+				shape2: shapes[returnRandom()],
+				shape3: shapes[returnRandom()]
+			});
+		}
+	};
+
+	$: $shapesToPlace, populateShapesToPlace();
 </script>
 
 <div
-	class="flex justify-evenly items-center bg-base-300 p-3 mt-8 desktop:absolute desktop: right-40 desktop:inset-y-0 desktop:gap-20 desktop:flex-col desktop:mt-auto"
+	class="fixed bottom-0 left-0 py-4 h-28 w-full flex flex-wrap justify-evenly items-center bg-base-200"
 >
-	{#each { length: 3 } as _, i}
-		<Shape shape={shapesToPlace[i]} {draggedShape} />
+	{#each Object.entries($shapesToPlace) as [key, shape]}
+		<Shape
+			{shape}
+			{draggedShape}
+			{points}
+			on:xy
+			on:dragend={() => {
+				shapesToPlace.update((obj) => {
+					const { [key]: removedShape, ...restOfArr } = obj;
+					return restOfArr;
+				});
+			}}
+		/>
 	{/each}
 </div>

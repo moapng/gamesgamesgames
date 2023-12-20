@@ -1,15 +1,18 @@
 <script lang="ts">
 	import ShapesToPlace from '$lib/blockdoku/ShapesToPlace.svelte';
 	import { writable, type Writable } from 'svelte/store';
-	import { fade } from 'svelte/transition';
 
 	const createEmptyGrid = (rows: number, columns: number) => {
 		return Array.from({ length: rows }, () => Array(columns).fill(false));
 	};
 
 	const blocks: Writable<boolean[][]> = writable(createEmptyGrid(9, 9));
+	let startX: number, startY: number;
 
 	const placeShape = (x: number, y: number, shape: boolean[][]) => {
+		x = x - startX;
+		y = y - startY; // make it so the shape is placed by the part you're dragging it by
+
 		const shapeHeight = shape.length;
 		const shapeWidth = shape[0].length;
 		if (
@@ -102,32 +105,43 @@
 	$: $blocks, clearRow();
 
 	const draggedShape: Writable<boolean[][] | null> = writable();
+	const points: Writable<number> = writable(0);
 </script>
 
-<h2 class="text-blockdoku">blockdoku</h2>
+<h2 class="text-primary">blockdoku</h2>
+<!-- to do, make own component -->
+<div class="stats bg-base-200">
+	<div class="stat place-items-center">
+		<div class="stat-title">Points</div>
+		<div class="stat-value text-primary">{$points}</div>
+		<div class="stat-desc">last best stat: XXX</div>
+	</div>
+</div>
 
-<section
-	class="mobile:max-desktop:absolute mobile:max-desktop:inset-x-0 mobile:max-desktop:bottom-0 desktop:flex"
->
-	<div
-		class="bg-base-300 w-fit m-auto grid grid-cols-9 mobile:p-2 mobile:mt-5 desktop:p-4 desktop:mt-8 lgdesktop:p-6 lgdesktop:mt-10"
-	>
+<section class="inset-x-0">
+	<div class="bg-base-300 w-fit m-auto grid grid-cols-9 p-2">
 		{#each $blocks as row, y}
 			{#each row as col, x}
 				<span
 					id={`${x},${y}`}
 					class="{col
 						? 'bg-primary'
-						: 'bg-base-200'} mobile:w-8 mobile:h-8 pad:w-16 pad:h-16 desktop:w-14 desktop:h-14 lgdesktop:w-20 lgdesktop:h-20 border-solid border-2 border-base-300"
+						: 'bg-base-200'} w-8 h-8 sm:w-12 sm:h-12 2xl:w-16 2xl:h-16 border-solid border-2 border-base-300"
 					role="figure"
 					on:mouseenter={() => handleMouse(x, y)}
-					transition:fade={{ delay: 250, duration: 300 }}
 				/>
 			{/each}
 		{/each}
 	</div>
-	<ShapesToPlace {draggedShape} />
 </section>
+<ShapesToPlace
+	{draggedShape}
+	on:xy={(e) => {
+		startX = e.detail.x;
+		startY = e.detail.y;
+	}}
+	{points}
+/>
 
 <style>
 </style>

@@ -3,16 +3,12 @@
 	import { page } from '$app/stores';
 	import '../app.css';
 
-	$: href = $page.url.pathname.replace(/\/|gamesgamesgames/g, ''); //regex for removing / + gamesx3 
-$:console.log(href)
+	$: href = $page.url.pathname.replace(/\/|gamesgamesgames/g, ''); //regex for removing / + gamesx3
 </script>
 
-<div
-	class="mobile:px-10 mobile:pt-6 desktop:px-20 desktop:pt-10 lgdesktop:px-32 lgdesktop:pt-16 min-h-screen h-full w-screen text-center"
-	data-theme={href}
->
+<div class="sm:px-10 2xl:px-20 min-h-screen h-full w-screen text-center" data-theme={href}>
 	<h1
-		class="{href === 'blockdoku' ? 'text-blockdoku' : href === 'wordle' ? 'text-wordle' : ''} mb-10"
+		class="{href === 'blockdoku' ? 'text-blockdoku' : href === 'wordle' ? 'text-wordle' : ''} mb-1"
 	>
 		<a href="{base}/">games galore</a>
 	</h1>
