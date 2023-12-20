@@ -4,7 +4,7 @@
 	import '../app.css';
 
 	$: href = $page.url.pathname.replace(/\//g, '');; //regex for removing /
-
+$:console.log(href)
 </script>
 
 <div
@@ -14,7 +14,7 @@
 	<h1
 		class="{href === 'blockdoku' ? 'text-blockdoku' : href === 'wordle' ? 'text-wordle' : ''} mb-10"
 	>
-		<a href={base}>games galore</a>
+		<a href="{base}/">games galore</a>
 	</h1>
 	<slot />
 </div>
