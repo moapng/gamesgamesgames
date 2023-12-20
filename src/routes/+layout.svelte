@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { base } from '$app/paths';
 	import { page } from '$app/stores';
 	import '../app.css';
 
@@ -13,7 +14,7 @@
 	<h1
 		class="{href === 'blockdoku' ? 'text-blockdoku' : href === 'wordle' ? 'text-wordle' : ''} mb-10"
 	>
-		<a href='/'>games galore</a>
+		<a href={base}>games galore</a>
 	</h1>
 	<slot />
 </div>
