@@ -1,5 +1,6 @@
 <script lang="ts">
-	import ShapesToPlace from '$lib/blockdoku/ShapesToPlace.svelte';
+	import Shape from '$lib/blockdoku/Shape.svelte';
+	import { returnRandom, shapes, shapesToPlace } from '$lib/blockdoku/shapeStuff';
 	import { writable, type Writable } from 'svelte/store';
 
 	const createEmptyGrid = (rows: number, columns: number) => {
@@ -8,6 +9,7 @@
 
 	const blocks: Writable<boolean[][]> = writable(createEmptyGrid(9, 9));
 	let startX: number, startY: number;
+	let shapeKey: string;
 
 	const placeShape = (x: number, y: number, shape: boolean[][]) => {
 		x = x - startX;
@@ -49,6 +51,12 @@
 					});
 					return newArray;
 				});
+				shapesToPlace?.update((obj) => {
+					const { [shapeKey]: removedShape, ...restOfArr } = obj;
+					return restOfArr;
+				});
+				let shapePoints = shape.flat().filter((value) => value === true).length;
+				points.set($points + shapePoints);
 			}
 		}
 	};
@@ -63,9 +71,9 @@
 
 	const combo: Writable<number> = writable(0);
 	const clearRow = () => {
-		// check rows
+		// clear rows
 		$blocks.forEach((row, i) => {
-			if (row.every((block) => block === true)) {
+			if (row.every((block) => block)) {
 				combo.set($combo + 1);
 				row.forEach((_, j) => {
 					blocks.update((arr) => {
@@ -79,7 +87,7 @@
 			}
 		});
 
-		// check columns
+		// clear columns
 		for (let i = 0; i < $blocks.length; i++) {
 			const column = $blocks.map((row) => row[i]);
 
@@ -99,13 +107,35 @@
 				console.log(`CLEARED column ${i}`);
 			}
 		}
+
+		// clear 3x3
+		// checka x:0-2 och y:0-2, osv
+		// for (let i = 0; i < 3; i++) {
+		// 	for (let j = 0; i < 3; j++) {
+		// 		const threeByThree = [];
+		// 		$blocks[i][j] && threeByThree.push($blocks[i][j]);
+		// 	}
+		// }
 	};
-	// TO DO: clear 3x3 like sudoku
+	// TODO: clear 3x3 like sudoku
 
 	$: $blocks, clearRow();
 
 	const draggedShape: Writable<boolean[][] | null> = writable();
 	const points: Writable<number> = writable(0);
+
+	const populateShapesToPlace = () => {
+		const keys = Object.keys($shapesToPlace);
+		if (keys.length === 0) {
+			shapesToPlace.set({
+				shape1: shapes[returnRandom()],
+				shape2: shapes[returnRandom()],
+				shape3: shapes[returnRandom()]
+			});
+		}
+	};
+
+	$: $shapesToPlace, populateShapesToPlace();
 </script>
 
 <h2 class="text-primary">blockdoku</h2>
@@ -134,14 +164,24 @@
 		{/each}
 	</div>
 </section>
-<ShapesToPlace
-	{draggedShape}
-	on:xy={(e) => {
-		startX = e.detail.x;
-		startY = e.detail.y;
-	}}
-	{points}
-/>
+
+<div
+	class="fixed bottom-0 left-0 py-4 h-28 w-full flex flex-wrap justify-evenly items-center bg-base-200"
+>
+	{#each Object.entries($shapesToPlace) as [key, shape]}
+		<Shape
+			{shape}
+			{draggedShape}
+			on:xy={(e) => {
+				startX = e.detail.x;
+				startY = e.detail.y;
+			}}
+			on:dragend={() => {
+				shapeKey = key;
+			}}
+		/>
+	{/each}
+</div>
 
 <style>
 </style>

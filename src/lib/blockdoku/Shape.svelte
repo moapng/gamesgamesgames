@@ -1,21 +1,16 @@
 <script lang="ts">
-	import { createEventDispatcher, onMount } from 'svelte';
+	import { createEventDispatcher } from 'svelte';
 	import { writable, type Writable } from 'svelte/store';
 
 	export let draggedShape: Writable<boolean[][] | null> = writable();
 	export let shape: boolean[][];
-	export let points: Writable<number>;
 
 	const handleDrag = () => {
 		draggedShape.set(shape);
 	};
-	// TO DO: do not allow drag to end if shape cannot be placed
-	//TO DO: handle combo mulitplyer
-	const handleDragEnd = () => {
-		let shapePoints = shape.flat().filter((value) => value === true).length;
-		points.set($points + shapePoints);
-		dispatch('dragend');
-	};
+
+	// TODO: handle combo mulitplyer
+
 	let shapeDiv: HTMLDivElement;
 
 	const dispatch = createEventDispatcher();
@@ -25,7 +20,7 @@
 	role="figure"
 	draggable="true"
 	on:drag={() => handleDrag()}
-	on:dragend={() => handleDragEnd()}
+	on:dragend={() => dispatch('dragend')}
 	bind:this={shapeDiv}
 >
 	{#each shape as row, y}
@@ -35,7 +30,7 @@
 				<span
 					class="{cell
 						? 'bg-primary border-solid border-2 border-base-300'
-						: ''} col-span-1 w-5 h-5 2xl:w-10 2xl:h-10"
+						: ''} w-5 h-5 2xl:w-10 2xl:h-10"
 					on:mousedown={() => dispatch('xy', { x: x, y: y })}
 				/>
 			{/each}
