@@ -107,14 +107,37 @@
 				console.log(`CLEARED column ${i}`);
 			}
 		}
-
-		// clear 3x3
 		// checka x:0-2 och y:0-2, osv
-		// for (let i = 0; i < 3; i++) {
-		// 	for (let j = 0; i < 3; j++) {
-		// 		const threeByThree = [];
-		// 		$blocks[i][j] && threeByThree.push($blocks[i][j]);
-		// 	}
+		// clear 3x3
+		let blockRowCol: number = 3;
+		// for (blockRowCol; blockRowCol < 3; blockRowCol + 3) {
+		const threeByThree: boolean[][] = [];
+		for (let i = 0; i < blockRowCol; i++) {
+			let row = [];
+			for (let j = 0; j < 3; j++) {
+				row.push($blocks[i][j]);
+			}
+			threeByThree.push(row);
+		}
+
+		const allValuesTrue =
+			threeByThree.length === 3 &&
+			threeByThree.every((row) => row.length === 3 && row.every((value) => value === true));
+
+		if (allValuesTrue) {
+			console.log('All values in threeByThree are true');
+			console.log(threeByThree);
+			blocks.update((arr) => {
+				console.log(arr);
+				for (let i = blockRowCol - 3; i < blockRowCol; i++) {
+					for (let j = blockRowCol - 3; j < blockRowCol; j++) {
+						arr[i][j] = false;
+					}
+				}
+				console.log(arr);
+				return arr;
+			});
+		}
 		// }
 	};
 	// TODO: clear 3x3 like sudoku
