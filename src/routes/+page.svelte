@@ -8,7 +8,7 @@
 		<li><a href="{base}/blockdoku" class="btn btn-outline text-blockdoku my-4">blockdoku</a></li>
 		<!-- <li><a href="{base}/wordle" class="btn btn-outline text-wordle my-4 pt-3 rounded-lg ">wordle</a></li> -->
 		<li>
-			<a class="btn btn-outline my-4">more to be added</a>
+			<a href="/å" class="btn btn-outline my-4">more to be added</a>
 		</li>
 	</ul>
 </section>

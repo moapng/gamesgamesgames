@@ -71,7 +71,6 @@
 
 	const combo: Writable<number> = writable(0);
 	const clearRow = () => {
-		// clear rows
 		$blocks.forEach((row, i) => {
 			if (row.every((block) => block)) {
 				combo.set($combo + 1);
@@ -82,12 +81,10 @@
 						return newArray;
 					});
 				});
-
-				console.log(`CLEARED row ${i} `);
 			}
 		});
-
-		// clear columns
+	};
+	const clearColumn = () => {
 		for (let i = 0; i < $blocks.length; i++) {
 			const column = $blocks.map((row) => row[i]);
 
@@ -104,15 +101,16 @@
 						return newArray;
 					});
 				});
-				console.log(`CLEARED column ${i}`);
 			}
 		}
+	};
+	const clear3by3 = (blockStart: number, blockEnd: number) => {
 		// checka x:0-2 och y:0-2, osv
 		// clear 3x3
-		let blockRowCol: number = 3;
-		// for (blockRowCol; blockRowCol < 3; blockRowCol + 3) {
+
 		const threeByThree: boolean[][] = [];
-		for (let i = 0; i < blockRowCol; i++) {
+
+		for (let i = blockStart; i < blockEnd; i++) {
 			let row = [];
 			for (let j = 0; j < 3; j++) {
 				row.push($blocks[i][j]);
@@ -125,24 +123,26 @@
 			threeByThree.every((row) => row.length === 3 && row.every((value) => value === true));
 
 		if (allValuesTrue) {
-			console.log('All values in threeByThree are true');
-			console.log(threeByThree);
 			blocks.update((arr) => {
-				console.log(arr);
-				for (let i = blockRowCol - 3; i < blockRowCol; i++) {
-					for (let j = blockRowCol - 3; j < blockRowCol; j++) {
+				for (let i = blockStart; i < blockEnd; i++) {
+					for (let j = blockEnd - 3; j < blockEnd; j++) {
 						arr[i][j] = false;
 					}
 				}
-				console.log(arr);
 				return arr;
 			});
 		}
-		// }
+		blockStart = blockStart + 3;
+		blockEnd = blockEnd + 3;
+	};
+	const clearBoard = () => {
+		clearRow();
+		clearColumn();
+		clear3by3(0, 3);
 	};
 	// TODO: clear 3x3 like sudoku
 
-	$: $blocks, clearRow();
+	$: $blocks, clearBoard();
 
 	const draggedShape: Writable<boolean[][] | null> = writable();
 	const points: Writable<number> = writable(0);
@@ -161,9 +161,9 @@
 	$: $shapesToPlace, populateShapesToPlace();
 </script>
 
-<h2 class="text-primary">blockdoku</h2>
-<!-- to do, make own component -->
-<div class="stats bg-base-200">
+<h2 class="text-primary skew-y-6">blockdoku</h2>
+
+<div class="stats bg-base-200 m-2 sm:mb-8 lg:mb-12">
 	<div class="stat place-items-center">
 		<div class="stat-title">Points</div>
 		<div class="stat-value text-primary">{$points}</div>
@@ -179,7 +179,7 @@
 					id={`${x},${y}`}
 					class="{col
 						? 'bg-primary'
-						: 'bg-base-200'} w-8 h-8 sm:w-12 sm:h-12 2xl:w-16 2xl:h-16 border-solid border-2 border-base-300"
+						: 'bg-base-200'} w-8 h-8 sm:w-12 sm:h-12 lg:w-16 lg:h-16 border-solid border-2 border-base-300"
 					role="figure"
 					on:mouseenter={() => handleMouse(x, y)}
 				/>
@@ -189,7 +189,7 @@
 </section>
 
 <div
-	class="fixed bottom-0 left-0 py-4 h-28 w-full flex flex-wrap justify-evenly items-center bg-base-200"
+	class="fixed bottom-0 max-lg:left-0 max-sm:h-36 max-lg:h-52 w-full flex flex-wrap justify-evenly items-center bg-base-200 lg:flex-col lg:justify-around lg:w-56 lg:h-screen lg:right-0 lg:top-0"
 >
 	{#each Object.entries($shapesToPlace) as [key, shape]}
 		<Shape

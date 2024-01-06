@@ -4,22 +4,19 @@
 
 	export let draggedShape: Writable<boolean[][] | null> = writable();
 	export let shape: boolean[][];
-
-	const handleDrag = () => {
-		draggedShape.set(shape);
-	};
-
-	// TODO: handle combo mulitplyer
-
 	let shapeDiv: HTMLDivElement;
 
+	const handleDrag = (e: DragEvent) => {
+		draggedShape.set(shape);
+	};
+	//TODO: handle combo mulitplyer
 	const dispatch = createEventDispatcher();
 </script>
 
 <div
 	role="figure"
 	draggable="true"
-	on:drag={() => handleDrag()}
+	on:drag={(e) => handleDrag(e)}
 	on:dragend={() => dispatch('dragend')}
 	bind:this={shapeDiv}
 >
@@ -30,7 +27,7 @@
 				<span
 					class="{cell
 						? 'bg-primary border-solid border-2 border-base-300'
-						: ''} w-5 h-5 2xl:w-10 2xl:h-10"
+						: ''} col-span-1 w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10"
 					on:mousedown={() => dispatch('xy', { x: x, y: y })}
 				/>
 			{/each}

@@ -6,7 +6,7 @@
 	$: href = $page.url.pathname.replace(/\/|gamesgamesgames/g, ''); //regex for removing / + gamesx3
 </script>
 
-<div class="sm:px-10 2xl:px-20 min-h-screen h-full w-screen text-center" data-theme={href}>
+<div class="sm:px-10 2xl:px-20 h-screen w-screen text-center" data-theme={href}>
 	<h1
 		class="{href === 'blockdoku' ? 'text-blockdoku' : href === 'wordle' ? 'text-wordle' : ''} mb-1"
 	>
